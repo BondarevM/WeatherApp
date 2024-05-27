@@ -15,6 +15,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="com.bma.model.User"/>
+        <mapping class="com.bma.model.Location"/>
 <!--        <mapping class="com.bma.model.Match"/>-->
 
     </session-factory>

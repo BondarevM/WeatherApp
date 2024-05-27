@@ -3,6 +3,8 @@ package com.bma.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,6 +15,15 @@ import lombok.*;
 public class Session {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    private String id;
+
+    @ManyToOne
+    @Column(name = "userid")
+    private User user;
+
+    @Column(name = "expiresat")
+    private LocalDateTime expiresAt;
+
+
+
 }
