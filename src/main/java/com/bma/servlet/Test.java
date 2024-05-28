@@ -1,4 +1,4 @@
 package com.bma.servlet;
 
-public class FirstServlet {
+public class Test {
 }

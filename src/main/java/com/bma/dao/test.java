@@ -18,7 +18,7 @@ public class test {
 
             session.beginTransaction();
             User user = User.builder()
-                    .login("TestUser")
+                    .login("TestUser2")
                     .password("qwerty")
                     .build();
 
@@ -35,8 +35,6 @@ public class test {
 
             session.getTransaction().commit();
 
-        } catch (HibernateException e) {
-            System.out.println("AAABBBCCC!!!");
         }
 
     }

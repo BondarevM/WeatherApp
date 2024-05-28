@@ -18,12 +18,9 @@ public class Session {
     private String id;
 
     @ManyToOne
-    @Column(name = "userid")
+    @JoinColumn(name = "userid")
     private User user;
 
     @Column(name = "expiresat")
     private LocalDateTime expiresAt;
-
-
-
 }
