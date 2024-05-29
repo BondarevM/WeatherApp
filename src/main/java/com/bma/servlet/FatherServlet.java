@@ -21,7 +21,6 @@ public abstract class FatherServlet extends HttpServlet {
         templateEngine = (TemplateEngine) config.getServletContext().getAttribute("templateEngine");
         super.init(config);
     }
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         context = ThymeleafUtil.buildWebContext(req, resp, getServletContext());
