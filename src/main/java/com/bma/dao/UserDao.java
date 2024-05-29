@@ -1,17 +1,26 @@
 package com.bma.dao;
 
+import com.bma.exception.DatabaseException;
 import com.bma.model.Location;
 import com.bma.model.User;
 import com.bma.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.math.BigDecimal;
-import java.util.function.BinaryOperator;
 
 
-public class test {
+public class UserDao {
+
+    public void save(User user) throws DatabaseException {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        } catch (HibernateException e){
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
@@ -37,5 +46,11 @@ public class test {
 
         }
 
+    }
+
+    private static final UserDao INSTANCE = new UserDao();
+    private UserDao(){}
+    public static UserDao getInstance(){
+        return INSTANCE;
     }
 }
