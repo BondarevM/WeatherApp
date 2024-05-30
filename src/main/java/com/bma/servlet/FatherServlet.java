@@ -21,25 +21,30 @@ public abstract class FatherServlet extends HttpServlet {
     private static final SessionService sessionService = SessionService.getInstance();
     protected ITemplateEngine templateEngine;
     protected WebContext context;
-
+//
     @Override
     public void init(ServletConfig config) throws ServletException {
         templateEngine = (TemplateEngine) config.getServletContext().getAttribute("templateEngine");
+
         super.init(config);
     }
-
-    @Override
+//
+//    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         context = ThymeleafUtil.buildWebContext(req, resp, getServletContext());
 
         try {
             sessionService.validateAllSessions();
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+        } catch (DatabaseException ignored) {
+
         }
 
+
         Cookie[] cookies = req.getCookies();
-        Optional<Cookie> cookie = Arrays.stream(cookies).filter(c -> c.getName().equals("sessionId")).findFirst();
+        if (cookies != null){
+
+        }
+        System.out.println();
 
 
 

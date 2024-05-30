@@ -7,21 +7,23 @@ import com.bma.model.User;
 import com.bma.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Optional;
 
 
 public class UserDao {
 
-    public void save(User user) throws DatabaseException {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+    public void save(User user) throws InvalidUserDataException {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
-        } catch (HibernateException e){
-            throw new DatabaseException("Something wrong with database");
+        } catch (HibernateException e) {
+            throw new InvalidUserDataException("This login already exist");
         }
     }
 
@@ -35,7 +37,7 @@ public class UserDao {
             User user =  (User) query.uniqueResult();
             session.getTransaction().commit();
 
-            return Optional.of(user);
+            return Optional.ofNullable(user);
 
         } catch (HibernateException e){
             throw new DatabaseException("Something wrong with database");

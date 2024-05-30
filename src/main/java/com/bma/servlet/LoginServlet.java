@@ -53,7 +53,6 @@ public class LoginServlet extends FatherServlet {
         context.setVariable("name","Mishanya");
         context.setVariable("sessionId", cookie.getValue());
 
-
-        templateEngine.process("home", context, resp.getWriter());
+        resp.sendRedirect("/");
     }
 }

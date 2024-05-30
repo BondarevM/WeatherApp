@@ -37,7 +37,7 @@ public class SessionDao {
             Session userSession = session.createQuery(hql, Session.class).setParameter("id", id).uniqueResult();
 
             session.getTransaction().commit();
-            return Optional.of(userSession);
+            return Optional.ofNullable(userSession);
         }
     }
 
