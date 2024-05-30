@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 
 public class UserDao {
@@ -20,11 +21,11 @@ public class UserDao {
             session.save(user);
             session.getTransaction().commit();
         } catch (HibernateException e){
-            throw new DatabaseException(e.getMessage());
+            throw new DatabaseException("Something wrong with database");
         }
     }
 
-    public User getUserByLoginAndPassword(String login, String hashedPassword) throws DatabaseException {
+    public Optional<User> getUserByLoginAndPassword(String login, String hashedPassword) throws DatabaseException {
         String hql = "FROM User WHERE login = :login and password = :hashedPassword";
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -34,7 +35,7 @@ public class UserDao {
             User user =  (User) query.uniqueResult();
             session.getTransaction().commit();
 
-            return user;
+            return Optional.of(user);
 
         } catch (HibernateException e){
             throw new DatabaseException("Something wrong with database");

@@ -16,7 +16,7 @@
 
         <mapping class="com.bma.model.User"/>
         <mapping class="com.bma.model.Location"/>
-<!--        <mapping class="com.bma.model.Match"/>-->
+        <mapping class="com.bma.model.Session"/>
 
     </session-factory>
 </hibernate-configuration>

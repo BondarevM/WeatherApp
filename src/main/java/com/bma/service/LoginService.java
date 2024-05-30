@@ -7,22 +7,23 @@ import com.bma.model.User;
 import com.bma.util.HashUtil;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class LoginService {
     HashUtil hashUtil = HashUtil.getInstance();
     UserDao userDao = UserDao.getInstance();
 
-    public void authentication(String login, String password) throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException {
+    public User authentication(String login, String password) throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException {
         validateUserData(login, password);
         String hashedPassword = hashUtil.hashPassword(password);
 
-        User user = userDao.getUserByLoginAndPassword(login, hashedPassword);
+        Optional<User> user = userDao.getUserByLoginAndPassword(login, hashedPassword);
 
-        if (user == null){
+        if (user.isEmpty()){
             throw new InvalidUserDataException("Incorrect login or password");
+
         }
-
-
+        return user.get();
     }
 
     private void validateUserData(String login, String password) throws InvalidUserDataException {

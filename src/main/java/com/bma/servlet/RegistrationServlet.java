@@ -27,13 +27,12 @@ public class RegistrationServlet extends FatherServlet{
 
         try {
             registrationService.saveUser(login,password,confirmedPassword);
-        } catch (InvalidUserDataException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+        } catch (InvalidUserDataException | NoSuchAlgorithmException | DatabaseException e) {
+            context.setVariable("errorMessage", e.getMessage());
+            templateEngine.process("registration", context, resp.getWriter());
         }
+
+
 
     }
 }

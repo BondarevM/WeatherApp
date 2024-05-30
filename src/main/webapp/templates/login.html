@@ -12,8 +12,8 @@
 <div class="container">
     <div class="registration-form">
         <h2 class="text-center mb-4 mt-4">Sign in</h2>
-        <div>
-            <p th:if="${errorMessage}"> <span th:text="${errorMessage}"></span></p>
+        <div th:if="${errorMessage}">
+            <h5 th:text="${errorMessage}" class="text-center text-danger"> </h5>
         </div>
         <form action="/login" method="post">
             <div class="mb-3">

@@ -13,6 +13,10 @@
     <div class="registration-form">
         <h2 class="text-center mb-4 mt-4">Sign up</h2>
 
+        <div th:if="${errorMessage}">
+            <h5 th:text="${errorMessage}" class="text-center text-danger"> </h5>
+        </div>
+
         <form action="/registration" method="post">
             <div class="mb-3">
                 <label for="login" class="form-label">Login</label>
@@ -28,8 +32,8 @@
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">Sign up</button>
         </form>
-        <h5 class="text-center">Already have an account? <a class="link-offset-2 link-underline link-underline-opacity-0" href="/login">Sign in</a></h5>
 
+        <h5 class="text-center">Already have an account? <a class="link-offset-2 link-underline link-underline-opacity-0" href="/login">Sign in</a></h5>
     </div>
 </div>
 
