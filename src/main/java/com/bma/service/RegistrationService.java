@@ -4,6 +4,7 @@ import com.bma.dao.UserDao;
 import com.bma.exception.DatabaseException;
 import com.bma.exception.InvalidUserDataException;
 import com.bma.model.User;
+import com.bma.util.HashUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,10 +12,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class RegistrationService {
     private static final UserDao userDao = UserDao.getInstance();
+    private static final HashUtil hashUtil = HashUtil.getInstance();
 
     public void saveUser(String login, String password, String confirmedPassword) throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException {
         validateUserData(login,password,confirmedPassword);
-        String hashedPassword = hashPassword(password);
+        String hashedPassword = hashUtil.hashPassword(password);
+
 
         User user = User.builder()
                 .login(login)
@@ -38,16 +41,6 @@ public class RegistrationService {
         }
     }
 
-    private String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
-        byte[] bytes = sha1.digest(password.getBytes());
-
-        StringBuilder builder = new StringBuilder();
-        for (byte b : bytes){
-            builder.append(String.format("%02X ",  b));
-        }
-        return builder.toString();
-    }
 
 
 

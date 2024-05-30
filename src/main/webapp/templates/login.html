@@ -12,15 +12,17 @@
 <div class="container">
     <div class="registration-form">
         <h2 class="text-center mb-4 mt-4">Sign in</h2>
-
-        <form>
+        <div>
+            <p th:if="${errorMessage}"> <span th:text="${errorMessage}"></span></p>
+        </div>
+        <form action="/login" method="post">
             <div class="mb-3">
                 <label for="login" class="form-label">Login</label>
-                <input type="text" class="form-control" id="login" placeholder="Enter your login">
+                <input type="text" class="form-control" id="login" placeholder="Enter your login" name="login">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password">
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">Sign in</button>
         </form>
