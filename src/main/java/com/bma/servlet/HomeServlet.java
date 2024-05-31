@@ -24,11 +24,7 @@ public class HomeServlet extends FatherServlet {
             }
         }
 
-
-
-//        HttpSession session = req.getSession();
         templateEngine.process("home", context, resp.getWriter());
     }
-
 
 }

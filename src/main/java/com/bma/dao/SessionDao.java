@@ -2,6 +2,7 @@ package com.bma.dao;
 
 import com.bma.exception.DatabaseException;
 import com.bma.model.Session;
+import com.bma.model.User;
 import com.bma.util.HibernateUtil;
 import org.hibernate.HibernateException;
 
@@ -25,7 +26,6 @@ public class SessionDao {
             session.delete(userSession);
             session.getTransaction().commit();
         }
-
     }
 
     public Optional<Session> getSessionById(String id){
@@ -43,7 +43,7 @@ public class SessionDao {
 
     public List<Session> findAll() throws DatabaseException {
         String hql = "FROM Session";
-        List<Session> allSessions = new ArrayList<>();
+        List<Session> allSessions;
         try(org.hibernate.Session session = HibernateUtil.getSessionFactory().openSession()){
             session.beginTransaction();
             allSessions = session.createQuery(hql, Session.class).list();

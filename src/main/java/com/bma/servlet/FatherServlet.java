@@ -1,6 +1,7 @@
 package com.bma.servlet;
 
 import com.bma.exception.DatabaseException;
+import com.bma.exception.InvalidSessionException;
 import com.bma.service.SessionService;
 import com.bma.util.ThymeleafUtil;
 import jakarta.servlet.ServletConfig;
@@ -21,17 +22,20 @@ public abstract class FatherServlet extends HttpServlet {
     private static final SessionService sessionService = SessionService.getInstance();
     protected ITemplateEngine templateEngine;
     protected WebContext context;
-//
+
+    //
     @Override
     public void init(ServletConfig config) throws ServletException {
         templateEngine = (TemplateEngine) config.getServletContext().getAttribute("templateEngine");
 
         super.init(config);
     }
-//
+
+    //
 //    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         context = ThymeleafUtil.buildWebContext(req, resp, getServletContext());
+        context.setVariable("sessionIsValid", false);
 
         try {
             sessionService.validateAllSessions();
@@ -39,14 +43,26 @@ public abstract class FatherServlet extends HttpServlet {
 
         }
 
-
         Cookie[] cookies = req.getCookies();
-        if (cookies != null){
+        Optional<Cookie> sessionIdCookie = Optional.empty();
 
+        if (cookies != null) {
+            sessionIdCookie = Arrays.stream(cookies).filter(c -> c.getName().equals("sessionId")).findFirst();
         }
-        System.out.println();
+
+        if (sessionIdCookie.isPresent()){
+            try {
+                if (sessionService.sessionIsValid(sessionIdCookie.get().getValue())){
+                    context.setVariable("sessionIsValid", true);
+                    String username = sessionService.getUserNameBySessionId(sessionIdCookie.get().getValue());
+                    context.setVariable("username", username);
 
 
+                }
+            } catch (InvalidSessionException e) {
+                context.setVariable("errorMessage", e.getMessage());
+            }
+        }
 
         super.service(req, resp);
     }

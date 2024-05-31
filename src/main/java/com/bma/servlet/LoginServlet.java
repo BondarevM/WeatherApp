@@ -25,6 +25,10 @@ public class LoginServlet extends FatherServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if ((boolean)context.getVariable("sessionIsValid")){
+            resp.sendRedirect("/");
+        }
         templateEngine.process("login", context, resp.getWriter());
     }
 

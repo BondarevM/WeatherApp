@@ -4,6 +4,7 @@ import com.bma.dao.SessionDao;
 import com.bma.exception.DatabaseException;
 import com.bma.exception.InvalidSessionException;
 import com.bma.model.Session;
+import com.bma.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,10 +21,20 @@ public class SessionService {
                 sessionDao.delete(session);
             }
         }
-
     }
 
-    public boolean isSessionValid(String sessionId) throws InvalidSessionException {
+    public String getUserNameBySessionId(String sessionId) throws InvalidSessionException {
+        Session session = getSessionById(sessionId);
+        User user = session.getUser();
+        return user.getLogin();
+    }
+
+    public void deleteSession(String sessionId) throws InvalidSessionException {
+        Session session = getSessionById(sessionId);
+        sessionDao.delete(session);
+    }
+
+    public boolean sessionIsValid(String sessionId) throws InvalidSessionException {
         Session session = getSessionById(sessionId);
 
         return !LocalDateTime.now().isAfter(session.getExpiresAt());
@@ -51,4 +62,6 @@ public class SessionService {
     }
 
     private static final SessionService INSTANCE = new SessionService();
+
+
 }
