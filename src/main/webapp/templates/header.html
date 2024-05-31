@@ -14,8 +14,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <div class="justify-content-evenly">
-            <img class="logo d-inline-block" src="../img/logo.png" alt="">
-            <span class="navbar-brand h1 h-100 d-inline-block mb-0 pb-0">Weather</span>
+            <a class="link-underline link-underline-opacity-0 " href="/">
+                <img class="logo d-inline-block" src="../img/logo.png" alt="">
+                <span class="navbar-brand h1 h-100 d-inline-block mb-0 pb-0">Weather</span>
+            </a>
+        </div>
+        <div class="justify-content-center">
+            <form class="d-flex" action="/search" method="post">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
         </div>
         <div th:unless="${sessionIsValid}">
             <div class="justify-content-end">
@@ -27,7 +35,7 @@
             <div class="justify-content-end">
                 <img src="../img/person.svg" alt="">
                 <span class="" th:text="${username}">UserNaMe</span>
-<!--                <a class="btn btn-primary me-2" href="/login">Sign in</a>-->
+                <!--                <a class="btn btn-primary me-2" href="/login">Sign in</a>-->
                 <a class="btn btn-secondary m-2" href="/logout">Logout</a>
             </div>
         </div>

@@ -2,20 +2,33 @@ package com.bma.servlet;
 
 import com.bma.exception.DatabaseException;
 import com.bma.exception.InvalidUserDataException;
+import com.bma.model.Session;
+import com.bma.model.User;
+import com.bma.service.LoginService;
 import com.bma.service.RegistrationService;
+import com.bma.service.SessionService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends FatherServlet{
     private static final RegistrationService registrationService = RegistrationService.getInstance();
+    private static final SessionService sessionService = SessionService.getInstance();
+    private static final LoginService loginService = LoginService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if ((boolean)context.getVariable("sessionIsValid")){
+            resp.sendRedirect("/");
+        }
+
         templateEngine.process("registration", context, resp.getWriter());
     }
 
@@ -24,13 +37,34 @@ public class RegistrationServlet extends FatherServlet{
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String confirmedPassword = req.getParameter("confirmedPassword");
-
+        User user = null;
         try {
             registrationService.saveUser(login,password,confirmedPassword);
         } catch (InvalidUserDataException | NoSuchAlgorithmException | DatabaseException e) {
             context.setVariable("errorMessage", e.getMessage());
             templateEngine.process("registration", context, resp.getWriter());
         }
+
+        try {
+            user = loginService.authentication(login, password);
+
+        } catch (NoSuchAlgorithmException | DatabaseException | InvalidUserDataException e) {
+            context.setVariable("errorMessage", e.getMessage());
+            templateEngine.process("login", context, resp.getWriter());
+            return;
+        }
+
+        Session session = new Session(UUID.randomUUID().toString(), user, LocalDateTime.now().plusHours(24));
+        sessionService.saveSession(session);
+
+        Cookie cookie = new Cookie("sessionId", session.getId());
+        cookie.setMaxAge(24 * 60 * 60);
+        resp.addCookie(cookie);
+
+        context.setVariable("sessionId", cookie.getValue());
+
+        resp.sendRedirect("/");
+
 
 
 
