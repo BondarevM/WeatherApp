@@ -43,6 +43,7 @@ public class RegistrationServlet extends FatherServlet{
         } catch (InvalidUserDataException | NoSuchAlgorithmException | DatabaseException e) {
             context.setVariable("errorMessage", e.getMessage());
             templateEngine.process("registration", context, resp.getWriter());
+            return;
         }
 
         try {
@@ -64,9 +65,5 @@ public class RegistrationServlet extends FatherServlet{
         context.setVariable("sessionId", cookie.getValue());
 
         resp.sendRedirect("/");
-
-
-
-
     }
 }
