@@ -25,20 +25,13 @@ public class WeatherApiService {
             .connectTimeout(Duration.ofSeconds(20))
             .build();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+//    public static void main(String[] args) throws IOException, InterruptedException {
 //
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(buildUriToSearchLocationByCityName("Zelenogorsk")))
-//                .build();
 //
-//        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//        System.out.println(response.body());
-
-
-        WeatherApiService instance = getInstance();
-        instance.getLocations("Krasnoyarsk");
-    }
-    private List<LocationDto> getLocations(String cityName) throws IOException, InterruptedException {
+//        WeatherApiService instance = getInstance();
+//        instance.getLocations("Krasnoyarsk");
+//    }
+    public List<LocationDto> getLocations(String cityName) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(buildUriToSearchLocationByCityName(cityName)))
                 .build();
@@ -50,16 +43,15 @@ public class WeatherApiService {
 
     private List<LocationDto> createListOfLocations(String requestBody) throws JsonProcessingException {
         List<LocationDto> locations = objectMapper.readValue(requestBody, objectMapper.getTypeFactory().constructCollectionType(List.class, LocationDto.class));
-//        List<LocationDto> locations = objectMapper.readValue(requestBody, new TypeReference<List<LocationDto>>() {});
         for (LocationDto location : locations){
             System.out.println(location);
         }
 
-        return null;
+        return locations;
     }
 
     private static String buildUriToSearchLocationByCityName(String cityName){
-        return "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=3&appid=" + API_ID;
+        return "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=6&appid=" + API_ID;
     }
 
     public static WeatherApiService getInstance(){
