@@ -24,6 +24,11 @@ public class SearchServlet extends FatherServlet{
 
         String cityName = req.getParameter("cityName");
 
+        if (cityName.isBlank()){
+            resp.sendRedirect("/");
+            return;
+        }
+
         try {
             List<LocationDto> locations = weatherApiService.getLocations(cityName);
             context.setVariable("locations", locations);

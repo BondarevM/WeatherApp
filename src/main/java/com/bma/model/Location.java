@@ -26,8 +26,8 @@ public class Location {
     private User user;
 
     @Column(name = "latitude")
-    private BigDecimal latitude;
+    private Double latitude;
 
     @Column(name = "longitude")
-    private BigDecimal longitude;
+    private Double longitude;
 }

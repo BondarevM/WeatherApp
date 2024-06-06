@@ -21,14 +21,16 @@ public class HomeServlet extends FatherServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         context.setVariable("name", "Mishanya");
 
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("sessionId")) {
-                    context.setVariable("sessionId", cookie.getValue());
-                }
-            }
-        }
+//        Cookie[] cookies = req.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("sessionId")) {
+//                    context.setVariable("sessionId", cookie.getValue());
+//                }
+//            }
+//        }
+
+
 
         templateEngine.process("home", context, resp.getWriter());
     }

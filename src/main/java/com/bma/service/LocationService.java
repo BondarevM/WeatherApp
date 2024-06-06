@@ -6,9 +6,10 @@ import com.bma.exception.InvalidSessionException;
 import com.bma.model.Location;
 import com.bma.model.Session;
 import com.bma.model.User;
+import com.bma.util.HibernateUtil;
+import org.hibernate.query.Query;
 
-import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.List;
 
 public class LocationService {
     private static final LocationDao locationDao = LocationDao.getInstance();
@@ -19,8 +20,8 @@ public class LocationService {
         Session session = sessionService.getSessionById(sessionId);
 
         User user = session.getUser();
-        BigDecimal lat = new BigDecimal(latitude);
-        BigDecimal lon = new BigDecimal(longitude);
+        Double lat = Double.valueOf(latitude);
+        Double lon = Double.valueOf(longitude);
 
         Location location = Location.builder()
                 .name(cityName)

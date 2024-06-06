@@ -23,7 +23,7 @@ public class SessionService {
         }
     }
 
-    public String getUserNameBySessionId(String sessionId) throws InvalidSessionException {
+    public String getUsernameBySessionId(String sessionId) throws InvalidSessionException {
         Session session = getSessionById(sessionId);
         User user = session.getUser();
         return user.getLogin();

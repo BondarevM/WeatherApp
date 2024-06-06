@@ -16,12 +16,12 @@
         <div class="m-4 p-2 border" th:each="location: ${locations}">
             <div>City name: <span th:text="${location.getName()}"></span> <div>
             <div>Country: <span th:text="${location.getCountry()}"></span></div>
-            <div>State: <span th:text="${location.getState()}"></span></div>
+            <div>State: <span th:text="${location.getState()}"> — </span></div>
             <form class="" action="/" method="post">
                 <input type="hidden" name="cityName" th:value="${location.getName()}">
                 <input type="hidden" name="latitude" th:value="${location.getLatitude()}">
                 <input type="hidden" name="longitude" th:value="${location.getLongitude()}">
-                <button class="btn btn-primary justify-content-center mt-1" type="submit">Add</button>
+                <button class="btn btn-primary " type="submit">Add</button>
             </form>
         </div>
     </div>

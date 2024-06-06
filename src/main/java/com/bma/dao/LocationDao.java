@@ -8,9 +8,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public class LocationDao {
+
+
     public void save(Location location) throws  DatabaseException {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -21,7 +24,17 @@ public class LocationDao {
         }
     }
 
+    public List<Location> getLocationsByUser(User user){
+        String hql = "FROM Location WHERE user =:user";
 
+        try(org.hibernate.Session session = HibernateUtil.getSessionFactory().openSession()){
+            session.beginTransaction();
+            Query<Location> query = session.createQuery(hql, Location.class).setParameter("user", user);
+            List<Location> locations = query.list();
+            session.getTransaction().commit();
+            return locations;
+        }
+    }
 
 
 
