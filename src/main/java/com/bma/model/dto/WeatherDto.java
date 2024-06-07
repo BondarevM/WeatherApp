@@ -9,14 +9,14 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Builder
 public class WeatherDto {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("main")
+    private String cityName;
     private String weather;
-    @JsonProperty("temp")
     private Double temp;
-    @JsonProperty("speed")
+    private Double pressure;
     private Double windSpeed;
+    private String icon;
+    private Double longitude;
+    private Double latitude;
 }

@@ -56,7 +56,8 @@ public abstract class FatherServlet extends HttpServlet {
                     context.setVariable("sessionIsValid", true);
                     String username = sessionService.getUsernameBySessionId(sessionIdCookie.get().getValue());
                     context.setVariable("username", username);
-
+                    context.setVariable("sessionId", sessionIdCookie.get().getValue());
+                    System.out.println();
 
                 }
             } catch (InvalidSessionException e) {

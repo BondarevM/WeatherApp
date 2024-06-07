@@ -28,45 +28,55 @@ public class WeatherApiService {
     private static final SessionDao sessionDao = SessionDao.getInstance();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private  static final String API_ID = "82fd33e1781ae51a60d4802fd61b69c2";
+    private static final String API_ID = "82fd33e1781ae51a60d4802fd61b69c2";
 
     private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .connectTimeout(Duration.ofSeconds(20))
             .build();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        WeatherApiService instance = getInstance();
-        instance.getWeathersForCurrentUser("1f9f14a6-f63b-4bb5-8bc5-0a3e11114893");
-        System.out.println();
-    }
+//    public static void main(String[] args) throws IOException, InterruptedException {
+//        WeatherApiService instance = getInstance();
+//        List<WeatherDto> weathersForCurrentUser = instance.getWeathersForCurrentUser("1f9f14a6-f63b-4bb5-8bc5-0a3e11114893");
+//    }
 
     public List<WeatherDto> getWeathersForCurrentUser(String sessionId) throws IOException, InterruptedException {
         Optional<Session> session = sessionDao.getSessionById(sessionId);
-
-        if (session.isPresent()){
+        List<WeatherDto> resultList = new ArrayList<>();
+        if (session.isPresent()) {
             User user = session.get().getUser();
             List<Location> locations = locationDao.getLocationsByUser(user);
-            List<WeatherApiResponse> list = new ArrayList<>();
 
             List<WeatherApiResponse> listOfWeathersApiResponse = createListOfWeathersApiResponse(locations);
 
-            System.out.println();
-
-    }
-        return null;
+            for (int i = 0; i < locations.size(); i++) {
+                WeatherDto weatherDto = WeatherDto.builder()
+                        .cityName(locations.get(i).getName())
+                        .weather(listOfWeathersApiResponse.get(i).getWeather().get(0).getDescription())
+                        .temp(listOfWeathersApiResponse.get(i).getMain().getTemp())
+                        .pressure(listOfWeathersApiResponse.get(i).getMain().getPressure())
+                        .windSpeed(listOfWeathersApiResponse.get(i).getWind().getSpeed())
+                        .icon(listOfWeathersApiResponse.get(i).getWeather().get(0).getIcon())
+                        .latitude(locations.get(i).getLatitude())
+                        .longitude(locations.get(i).getLongitude())
+                        .build();
+                resultList.add(weatherDto);
+                System.out.println();
+            }
+        }
+        return resultList;
     }
 
     private static List<WeatherApiResponse> createListOfWeathersApiResponse(List<Location> locations) throws IOException, InterruptedException {
         List<WeatherApiResponse> list = new ArrayList<>();
 
-        for (Location location : locations){
+        for (Location location : locations) {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(buildUriToGetWeatherInfoForCurrentCity(location.getLatitude(),location.getLongitude())))
+                    .uri(URI.create(buildUriToGetWeatherInfoForCurrentCity(location.getLatitude(), location.getLongitude())))
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-           list.add(objectMapper.readValue(response.body(), WeatherApiResponse.class));
+            list.add(objectMapper.readValue(response.body(), WeatherApiResponse.class));
         }
         return list;
     }
@@ -85,18 +95,20 @@ public class WeatherApiService {
         return objectMapper.readValue(responseBody, objectMapper.getTypeFactory().constructCollectionType(List.class, LocationDto.class));
     }
 
-    private static String buildUriToSearchLocationByCityName(String cityName){
+    private static String buildUriToSearchLocationByCityName(String cityName) {
         return "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=7&appid=" + API_ID;
     }
-    private static String buildUriToGetWeatherInfoForCurrentCity(Double lat, Double lon){
+
+    private static String buildUriToGetWeatherInfoForCurrentCity(Double lat, Double lon) {
         return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat.toString() + "&lon=" + lon.toString() + "&appid=" + API_ID;
     }
 
-    public static WeatherApiService getInstance(){
+    public static WeatherApiService getInstance() {
         return INSTANCE;
     }
 
     private static final WeatherApiService INSTANCE = new WeatherApiService();
+
     private static void setHttpClientParams() {
 
     }
