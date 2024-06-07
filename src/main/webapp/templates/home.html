@@ -35,7 +35,10 @@
                 <div>Wind speed: <span th:text="${weather.getWindSpeed()}"></span></div>
                 <div>Pressure: <span th:text="${weather.getPressure()}"></span></div>
                 <div>Icon: <span th:text="${weather.getIcon()}"></span></div>
-                <form class="" action="/" method="post">
+                <form class="" action="/delete" method="post">
+                    <input type="hidden" name="cityName" th:value="${weather.getCityName()}">
+                    <input type="hidden" name="latitude" th:value="${weather.getLatitude()}">
+                    <input type="hidden" name="longitude" th:value="${weather.getLongitude()}">
                     <button class="btn btn-secondary" type="submit"><img class="trash-icon" src="../img/trash.svg" style="height: 20px"
                                                                         alt=""></button>
                 </form>

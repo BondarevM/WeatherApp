@@ -54,7 +54,6 @@ public class LoginServlet extends FatherServlet {
         cookie.setMaxAge(24 * 60 * 60);
         resp.addCookie(cookie);
 
-        context.setVariable("name","Mishanya");
         context.setVariable("sessionId", cookie.getValue());
 
         resp.sendRedirect("/");

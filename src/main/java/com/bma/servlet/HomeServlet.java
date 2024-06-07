@@ -55,10 +55,7 @@ public class HomeServlet extends FatherServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
 
-        Cookie[] cookies = req.getCookies();
-
-        Optional<Cookie> cookie = Arrays.stream(cookies).filter(c -> c.getName().equals("sessionId")).findFirst();
-        String sessionId = cookie.get().getValue();
+        String sessionId = (String)context.getVariable("sessionId");
 
         try {
             locationService.saveLocation(cityName, latitude, longitude, sessionId);

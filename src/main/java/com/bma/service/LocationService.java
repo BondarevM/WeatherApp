@@ -10,6 +10,7 @@ import com.bma.util.HibernateUtil;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LocationService {
     private static final LocationDao locationDao = LocationDao.getInstance();
@@ -31,6 +32,27 @@ public class LocationService {
                 .build();
 
         locationDao.save(location);
+    }
+
+    public void deleteLocation(String sessionId, String cityName, String latitude, String longitude) throws InvalidSessionException {
+
+        Session session = sessionService.getSessionById(sessionId);
+        User user = session.getUser();
+
+        Optional<Location> location = locationDao.getLocation(user, cityName, Double.valueOf(latitude), Double.valueOf(longitude));
+
+        if (location.isPresent()){
+            locationDao.delete(location.get());
+        }
+
+//        Location location = Location.builder()
+//                .user(user)
+//                .name(cityName)
+//                .latitude(Double.valueOf(latitude))
+//                .longitude(Double.valueOf(longitude))
+//                .build();
+//        locationDao.delete(location);
+        System.out.println();
     }
 
 
