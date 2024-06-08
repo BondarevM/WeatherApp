@@ -21,26 +21,30 @@
             <a class="btn btn-primary me-2 m-2" href="/login">Sign in</a>
             <a class="btn btn-secondary m-2" href="/registration">Sign up</a>
         </div>
-
-        <h1 th:text=" 'Your cookie value is : ' +  ${sessionId}"></h1>
-        <h1 th:text="'Hello, ' + ${name} + '!'">Hello, World!</h1>
     </div>
 
     <div th:if="${sessionIsValid}">
+        <div th:if="${errorMessage}">
+            <h5 th:text="${errorMessage}" class="text-center text-danger"> </h5>
+        </div>
         <div class="d-flex flex-row flex-wrap">
             <div class="m-4 p-2 border" th:each="weather: ${weathers}">
-                <div>City: <span th:text="${weather.getCityName()}"></span></div>
-                <div>Temp: <span th:text="${weather.getTemp()}"></span></div>
-                <div> <span th:text="${weather.getWeather()}"></span></div>
-                <div>Wind speed: <span th:text="${weather.getWindSpeed()}"></span></div>
-                <div>Pressure: <span th:text="${weather.getPressure()}"></span></div>
-                <div>Icon: <span th:text="${weather.getIcon()}"></span></div>
+                <div><span th:text="${weather.getCityName()}"></span> <img th:src="@{'https://openweathermap.org/img/wn/' + ${weather.icon} + '@2x.png'}"
+                        alt="Weather Icon"></div>
+                <div><span th:text="${weather.getWeather()}"></span></div>
+                <div><img class="weather-icon" src="../img/thermometer.svg" alt="Temp: "><span
+                        th:text="${weather.getTemp()}"></span></div>
+                <div><img class="weather-icon" src="../img/wind-speed.svg" alt="Wind-speed: "> <span
+                        th:text="${weather.getWindSpeed()}"></span></div>
+                <div><img class="weather-icon" src="../img/pressure.svg" alt="Pressure: "> <span
+                        th:text="${weather.getPressure()}"></span></div>
                 <form class="" action="/delete" method="post">
                     <input type="hidden" name="cityName" th:value="${weather.getCityName()}">
                     <input type="hidden" name="latitude" th:value="${weather.getLatitude()}">
                     <input type="hidden" name="longitude" th:value="${weather.getLongitude()}">
-                    <button class="btn btn-secondary" type="submit"><img class="trash-icon" src="../img/trash.svg" style="height: 20px"
-                                                                        alt=""></button>
+                    <button class="btn btn-secondary mt-2" type="submit"><img class="trash-icon " src="../img/trash.svg"
+                                                                         style="height: 20px"
+                                                                         alt=""></button>
                 </form>
             </div>
         </div>

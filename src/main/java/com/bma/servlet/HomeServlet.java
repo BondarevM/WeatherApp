@@ -34,6 +34,7 @@ public class HomeServlet extends FatherServlet {
 //        }
 
         String sessionId = (String)context.getVariable("sessionId");
+        context.setVariable("errorMessage", req.getParameter("errorMessage"));
 
         try {
             List<WeatherDto> weathersForCurrentUser = weatherApiService.getWeathersForCurrentUser(sessionId);

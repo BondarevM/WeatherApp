@@ -53,9 +53,9 @@ public class WeatherApiService {
                 WeatherDto weatherDto = WeatherDto.builder()
                         .cityName(locations.get(i).getName())
                         .weather(listOfWeathersApiResponse.get(i).getWeather().get(0).getDescription())
-                        .temp(listOfWeathersApiResponse.get(i).getMain().getTemp())
-                        .pressure(listOfWeathersApiResponse.get(i).getMain().getPressure())
-                        .windSpeed(listOfWeathersApiResponse.get(i).getWind().getSpeed())
+                        .temp(String.format("%.1f", listOfWeathersApiResponse.get(i).getMain().getTemp() - 273.15) + " °С")
+                        .pressure(String.format("%.0f",listOfWeathersApiResponse.get(i).getMain().getPressure()) + " GPa")
+                        .windSpeed(String.format("%.1f",listOfWeathersApiResponse.get(i).getWind().getSpeed()) + " m/s")
                         .icon(listOfWeathersApiResponse.get(i).getWeather().get(0).getIcon())
                         .latitude(locations.get(i).getLatitude())
                         .longitude(locations.get(i).getLongitude())
@@ -81,7 +81,9 @@ public class WeatherApiService {
         return list;
     }
 
-    public List<LocationDto> getLocations(String cityName) throws IOException, InterruptedException {
+    public List<LocationDto> getLocations(String name) throws IOException, InterruptedException {
+        String cityName = name.replace(" ", "-");
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(buildUriToSearchLocationByCityName(cityName)))
                 .build();

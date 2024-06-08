@@ -32,6 +32,12 @@ public class SearchServlet extends FatherServlet{
         try {
             List<LocationDto> locations = weatherApiService.getLocations(cityName);
             context.setVariable("locations", locations);
+
+            if (locations.isEmpty()){
+                resp.sendRedirect("/?errorMessage=Invalid city name");
+                return;
+            }
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -13,9 +13,9 @@ import lombok.*;
 public class WeatherDto {
     private String cityName;
     private String weather;
-    private Double temp;
-    private Double pressure;
-    private Double windSpeed;
+    private String temp;
+    private String pressure;
+    private String windSpeed;
     private String icon;
     private Double longitude;
     private Double latitude;
