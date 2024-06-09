@@ -13,7 +13,7 @@
 
 <div class="container-fluid ">
     <div class="d-flex flex-row flex-wrap">
-        <div class="m-4 p-2 border" th:each="location: ${locations}">
+        <div class="m-4 p-2 border bg-light rounded" th:each="location: ${locations}">
             <div>City name: <span th:text="${location.getName()}"></span> </div>
             <div>Country: <span th:text="${location.getCountry()}"></span></div>
             <div>State: <span th:text="${location.getState()}"> — </span></div>

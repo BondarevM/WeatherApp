@@ -28,7 +28,7 @@
             <h5 th:text="${errorMessage}" class="text-center text-danger"> </h5>
         </div>
         <div class="d-flex flex-row flex-wrap">
-            <div class="m-4 p-2 border" th:each="weather: ${weathers}">
+            <div class="m-4 p-2 border bg-light rounded" th:each="weather: ${weathers}">
                 <div><span th:text="${weather.getCityName()}"></span> <img th:src="@{'https://openweathermap.org/img/wn/' + ${weather.icon} + '@2x.png'}"
                         alt="Weather Icon"></div>
                 <div><span th:text="${weather.getWeather()}"></span></div>

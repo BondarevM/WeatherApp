@@ -15,6 +15,11 @@ public class SearchServlet extends FatherServlet{
     private static final WeatherApiService weatherApiService = WeatherApiService.getInstance();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (!(boolean)context.getVariable("sessionIsValid")){

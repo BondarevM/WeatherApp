@@ -1,7 +1,15 @@
+body {
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .logo{
     height: 50px ;
 }
 .weather-icon{
     height: 20px;
 }
+
+
 
