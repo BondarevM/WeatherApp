@@ -17,11 +17,9 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    private static Configuration buildConfiguration() {
-        Configuration configuration = new Configuration();
-//        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
-//        configuration.addAnnotatedClass(com.bma.entity.User.class);
-        return configuration;
+    public static Configuration buildConfiguration() {
+
+        return new Configuration();
     }
 
 }
