@@ -1,6 +1,6 @@
 package com.bma;
 
-import com.bma.util.HibernateTestUtil;
+import com.bma.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +15,7 @@ public class RegistrationServiceTest {
 
     @Test
     public void abc() {
-        try (SessionFactory sessionFactory = HibernateTestUtil.getSessionFactory();
+        try (SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
              Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Assertions.assertTrue(true);

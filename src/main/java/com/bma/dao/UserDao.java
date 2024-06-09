@@ -44,24 +44,6 @@ public class UserDao {
         }
     }
 
-    public static void main(String[] args) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            String login = "Bondarev";
-            String hashedPassword = "71 10 ED A4 D0 9E 06 2A A5 E4 A3 90 B0 A5 72 AC 0D 2C 02 20 ";
-            String hql = "SELECT User.login, User.password FROM User WHERE login =:login and password =:password";
-
-            session.beginTransaction();
-
-            Query query = session.createQuery(hql).setParameter("login", login).setParameter("password", hashedPassword);
-            User user =  (User) query.uniqueResult();
-            session.getTransaction().commit();
-
-            System.out.println();
-
-
-        }
-
-    }
 
     private static final UserDao INSTANCE = new UserDao();
     private UserDao(){}
