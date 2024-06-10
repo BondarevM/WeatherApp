@@ -16,8 +16,8 @@ public class SessionService {
     public void validateAllSessions() throws DatabaseException {
         List<Session> allSessions = sessionDao.findAll();
 
-        for (Session session : allSessions){
-            if (LocalDateTime.now().isAfter(session.getExpiresAt())){
+        for (Session session : allSessions) {
+            if (LocalDateTime.now().isAfter(session.getExpiresAt())) {
                 sessionDao.delete(session);
             }
         }
