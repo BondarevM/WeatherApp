@@ -37,7 +37,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void SessionTest() throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException, InterruptedException {
+    public void ExpireSessionIfCurrentTimeGreaterThanSessionExpiresTime() throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException, InterruptedException {
         String login = "login3";
         String password = "password";
         String hashedPassword = hashUtil.hashPassword(password);

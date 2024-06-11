@@ -26,19 +26,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class WeatherApiService {
     private static final LocationDao locationDao = LocationDao.getInstance();
     private static final SessionDao sessionDao = SessionDao.getInstance();
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String API_ID = "82fd33e1781ae51a60d4802fd61b69c2";
 
-    private static final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_1_1)
-            .connectTimeout(Duration.ofSeconds(20))
-            .build();
+    private final HttpClient httpClient;
 
-//    public static void main(String[] args) throws IOException, InterruptedException {
-//        WeatherApiService instance = getInstance();
-//        List<WeatherDto> weathersForCurrentUser = instance.getWeathersForCurrentUser("1f9f14a6-f63b-4bb5-8bc5-0a3e11114893");
-//    }
+    private WeatherApiService() {
+        this.httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
+
+    }
+
+    public WeatherApiService(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
 
     public List<WeatherDto> getWeathersForCurrentUser(String sessionId) throws IOException, InterruptedException {
         Optional<Session> session = sessionDao.getSessionById(sessionId);
@@ -54,8 +59,8 @@ public class WeatherApiService {
                         .cityName(locations.get(i).getName())
                         .weather(listOfWeathersApiResponse.get(i).getWeather().get(0).getDescription())
                         .temp(String.format("%.1f", listOfWeathersApiResponse.get(i).getMain().getTemp() - 273.15) + " °С")
-                        .pressure(String.format("%.0f",listOfWeathersApiResponse.get(i).getMain().getPressure()) + " GPa")
-                        .windSpeed(String.format("%.1f",listOfWeathersApiResponse.get(i).getWind().getSpeed()) + " m/s")
+                        .pressure(String.format("%.0f", listOfWeathersApiResponse.get(i).getMain().getPressure()) + " GPa")
+                        .windSpeed(String.format("%.1f", listOfWeathersApiResponse.get(i).getWind().getSpeed()) + " m/s")
                         .icon(listOfWeathersApiResponse.get(i).getWeather().get(0).getIcon())
                         .latitude(locations.get(i).getLatitude())
                         .longitude(locations.get(i).getLongitude())
@@ -67,7 +72,7 @@ public class WeatherApiService {
         return resultList;
     }
 
-    private static List<WeatherApiResponse> createListOfWeathersApiResponse(List<Location> locations) throws IOException, InterruptedException {
+    private List<WeatherApiResponse> createListOfWeathersApiResponse(List<Location> locations) throws IOException, InterruptedException {
         List<WeatherApiResponse> list = new ArrayList<>();
 
         for (Location location : locations) {
@@ -82,6 +87,7 @@ public class WeatherApiService {
     }
 
     public List<LocationDto> getLocations(String name) throws IOException, InterruptedException {
+
         String cityName = name.replace(" ", "-");
 
         HttpRequest request = HttpRequest.newBuilder()
