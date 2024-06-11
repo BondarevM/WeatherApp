@@ -18,24 +18,19 @@ public class LogoutServlet extends FatherServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cookie[] cookies = req.getCookies();
-        Optional<Cookie> sessionIdCookie = Optional.empty();
-        if (cookies != null){
-            sessionIdCookie = Arrays.stream(cookies).filter(c -> c.getName().equals("sessionId")).findFirst();
-        }
 
-        if (sessionIdCookie.isPresent()){
-            try {
-                sessionService.deleteSession(sessionIdCookie.get().getValue());
-            } catch (InvalidSessionException ignored) {
-            }
+        String sessionId = (String) context.getVariable("sessionId");
+
+        try {
+            sessionService.deleteSession(sessionId);
+        } catch (InvalidSessionException ignored) {
         }
 
         Cookie deleteCookie = new Cookie("sessionId", "");
         deleteCookie.setMaxAge(0);
         resp.addCookie(deleteCookie);
-        resp.sendRedirect("/");
 
+        resp.sendRedirect("/");
     }
 
     @Override

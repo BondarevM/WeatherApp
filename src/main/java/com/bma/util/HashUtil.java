@@ -10,15 +10,18 @@ public class HashUtil {
         byte[] bytes = sha1.digest(password.getBytes());
 
         StringBuilder builder = new StringBuilder();
-        for (byte b : bytes){
-            builder.append(String.format("%02X ",  b));
+        for (byte b : bytes) {
+            builder.append(String.format("%02X ", b));
         }
         return builder.toString();
     }
 
-    public static HashUtil getInstance(){
+    public static HashUtil getInstance() {
         return INSTANCE;
     }
-    private HashUtil(){}
+
+    private HashUtil() {
+    }
+
     private static final HashUtil INSTANCE = new HashUtil();
 }

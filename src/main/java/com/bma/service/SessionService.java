@@ -26,6 +26,7 @@ public class SessionService {
     public String getUsernameBySessionId(String sessionId) throws InvalidSessionException {
         Session session = getSessionById(sessionId);
         User user = session.getUser();
+
         return user.getLogin();
     }
 
@@ -45,14 +46,12 @@ public class SessionService {
         if (session.isEmpty()) {
             throw new InvalidSessionException("Current session has expired");
         }
-
         return session.get();
     }
 
     public void saveSession(Session session) {
         sessionDao.save(session);
     }
-
 
     public static SessionService getInstance() {
         return INSTANCE;

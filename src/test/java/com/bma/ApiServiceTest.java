@@ -52,5 +52,4 @@ public class ApiServiceTest {
             weatherApiService.getLocations("Krasnoyarsk");
         });
     }
-
 }

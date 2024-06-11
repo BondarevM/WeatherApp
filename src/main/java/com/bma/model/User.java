@@ -1,7 +1,11 @@
 package com.bma.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
 
 @NoArgsConstructor
 @AllArgsConstructor

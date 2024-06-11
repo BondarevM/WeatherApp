@@ -19,7 +19,7 @@ public class LoginService {
 
         Optional<User> user = userDao.getUserByLoginAndPassword(login, hashedPassword);
 
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             throw new InvalidUserDataException("Incorrect login or password");
 
         }
@@ -27,15 +27,17 @@ public class LoginService {
     }
 
     private void validateUserData(String login, String password) throws InvalidUserDataException {
-        if (login.isEmpty() || password.isEmpty()){
+        if (login.isEmpty() || password.isEmpty()) {
             throw new InvalidUserDataException("Fill in all the fields");
         }
     }
 
+    private LoginService() {
+    }
 
-    private LoginService(){}
     private static final LoginService INSTANCE = new LoginService();
-    public static LoginService getInstance(){
+
+    public static LoginService getInstance() {
         return INSTANCE;
     }
 }

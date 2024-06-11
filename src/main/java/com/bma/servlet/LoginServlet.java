@@ -22,13 +22,12 @@ public class LoginServlet extends FatherServlet {
     private static final LoginService loginService = LoginService.getInstance();
     private static final SessionService sessionService = SessionService.getInstance();
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if ((boolean)context.getVariable("sessionIsValid")){
+        if ((boolean) context.getVariable("sessionIsValid")) {
             resp.sendRedirect("/");
         }
+
         templateEngine.process("login", context, resp.getWriter());
     }
 

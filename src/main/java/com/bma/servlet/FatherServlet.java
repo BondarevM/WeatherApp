@@ -23,7 +23,6 @@ public abstract class FatherServlet extends HttpServlet {
     protected ITemplateEngine templateEngine;
     protected WebContext context;
 
-    //
     @Override
     public void init(ServletConfig config) throws ServletException {
         templateEngine = (TemplateEngine) config.getServletContext().getAttribute("templateEngine");
@@ -31,8 +30,7 @@ public abstract class FatherServlet extends HttpServlet {
         super.init(config);
     }
 
-    //
-//    @Override
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         context = ThymeleafUtil.buildWebContext(req, resp, getServletContext());
         context.setVariable("sessionIsValid", false);
@@ -50,9 +48,9 @@ public abstract class FatherServlet extends HttpServlet {
             sessionIdCookie = Arrays.stream(cookies).filter(c -> c.getName().equals("sessionId")).findFirst();
         }
 
-        if (sessionIdCookie.isPresent()){
+        if (sessionIdCookie.isPresent()) {
             try {
-                if (sessionService.sessionIsValid(sessionIdCookie.get().getValue())){
+                if (sessionService.sessionIsValid(sessionIdCookie.get().getValue())) {
                     context.setVariable("sessionIsValid", true);
                     String username = sessionService.getUsernameBySessionId(sessionIdCookie.get().getValue());
                     context.setVariable("username", username);
@@ -64,7 +62,6 @@ public abstract class FatherServlet extends HttpServlet {
                 context.setVariable("errorMessage", e.getMessage());
             }
         }
-
         super.service(req, resp);
     }
 }

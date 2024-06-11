@@ -6,7 +6,6 @@ import com.bma.exception.DatabaseException;
 import com.bma.exception.InvalidUserDataException;
 import com.bma.model.Session;
 import com.bma.model.User;
-import com.bma.service.LoginService;
 import com.bma.service.RegistrationService;
 import com.bma.service.SessionService;
 import com.bma.util.HashUtil;
@@ -58,6 +57,7 @@ public class LoginServiceTest {
         Assertions.assertFalse(sessions.isEmpty());
 
         sessionService.validateAllSessions();
+
         sessions = sessionDao.findAll();
         Assertions.assertTrue(sessions.isEmpty());
     }

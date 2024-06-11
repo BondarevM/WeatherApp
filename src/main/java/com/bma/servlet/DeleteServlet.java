@@ -22,13 +22,11 @@ public class DeleteServlet extends FatherServlet {
         String longitude = req.getParameter("longitude");
 
         try {
-            locationService.deleteLocation(sessionId, cityName, latitude,longitude);
+            locationService.deleteLocation(sessionId, cityName, latitude, longitude);
         } catch (InvalidSessionException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println();
         resp.sendRedirect("/");
-
     }
 }

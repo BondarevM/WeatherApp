@@ -19,13 +19,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @WebServlet("/registration")
-public class RegistrationServlet extends FatherServlet{
+public class RegistrationServlet extends FatherServlet {
     private static final RegistrationService registrationService = RegistrationService.getInstance();
     private static final SessionService sessionService = SessionService.getInstance();
     private static final LoginService loginService = LoginService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if ((boolean)context.getVariable("sessionIsValid")){
+        if ((boolean) context.getVariable("sessionIsValid")) {
             resp.sendRedirect("/");
         }
 
@@ -38,8 +39,9 @@ public class RegistrationServlet extends FatherServlet{
         String password = req.getParameter("password");
         String confirmedPassword = req.getParameter("confirmedPassword");
         User user = null;
+
         try {
-            registrationService.saveUser(login,password,confirmedPassword);
+            registrationService.saveUser(login, password, confirmedPassword);
         } catch (InvalidUserDataException | NoSuchAlgorithmException | DatabaseException e) {
             context.setVariable("errorMessage", e.getMessage());
             templateEngine.process("registration", context, resp.getWriter());

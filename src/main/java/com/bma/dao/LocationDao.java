@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class LocationDao {
 
-
     public void save(Location location) throws DatabaseException {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -29,7 +28,7 @@ public class LocationDao {
             session.beginTransaction();
             session.delete(location);
             session.getTransaction().commit();
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             System.out.println();
         }
     }
@@ -48,6 +47,7 @@ public class LocationDao {
 
     public Optional<Location> getLocation(User user, String cityName, Double latitude, Double longitude) {
         String hql = "FROM Location WHERE user =:user and name =:cityName and latitude =:latitude and longitude =: longitude";
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             Query<Location> query = session.createQuery(hql, Location.class)
@@ -61,9 +61,7 @@ public class LocationDao {
             session.getTransaction().commit();
             return Optional.ofNullable(location);
         }
-
     }
-
 
     public static LocationDao getInstance() {
         return INSTANCE;
@@ -72,6 +70,5 @@ public class LocationDao {
     private static final LocationDao INSTANCE = new LocationDao();
 
     private LocationDao() {
-
     }
 }

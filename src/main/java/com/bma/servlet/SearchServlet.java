@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/search")
-public class SearchServlet extends FatherServlet{
+public class SearchServlet extends FatherServlet {
     private static final WeatherApiService weatherApiService = WeatherApiService.getInstance();
 
     @Override
@@ -22,14 +22,14 @@ public class SearchServlet extends FatherServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (!(boolean)context.getVariable("sessionIsValid")){
+        if (!(boolean) context.getVariable("sessionIsValid")) {
             resp.sendRedirect("/login");
             return;
         }
 
         String cityName = req.getParameter("cityName");
 
-        if (cityName.isBlank()){
+        if (cityName.isBlank()) {
             resp.sendRedirect("/");
             return;
         }
@@ -38,7 +38,7 @@ public class SearchServlet extends FatherServlet{
             List<LocationDto> locations = weatherApiService.getLocations(cityName);
             context.setVariable("locations", locations);
 
-            if (locations.isEmpty()){
+            if (locations.isEmpty()) {
                 resp.sendRedirect("/?errorMessage=Invalid city name");
                 return;
             }
@@ -48,6 +48,5 @@ public class SearchServlet extends FatherServlet{
         }
 
         templateEngine.process("search", context, resp.getWriter());
-//        resp.sendRedirect("/");
     }
 }

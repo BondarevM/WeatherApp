@@ -6,16 +6,12 @@ import com.bma.exception.InvalidSessionException;
 import com.bma.model.Location;
 import com.bma.model.Session;
 import com.bma.model.User;
-import com.bma.util.HibernateUtil;
-import org.hibernate.query.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public class LocationService {
     private static final LocationDao locationDao = LocationDao.getInstance();
     private static final SessionService sessionService = SessionService.getInstance();
-
 
     public void saveLocation(String cityName, String latitude, String longitude, String sessionId) throws InvalidSessionException, DatabaseException {
         Session session = sessionService.getSessionById(sessionId);
@@ -41,26 +37,17 @@ public class LocationService {
 
         Optional<Location> location = locationDao.getLocation(user, cityName, Double.valueOf(latitude), Double.valueOf(longitude));
 
-        if (location.isPresent()){
+        if (location.isPresent()) {
             locationDao.delete(location.get());
         }
-
-//        Location location = Location.builder()
-//                .user(user)
-//                .name(cityName)
-//                .latitude(Double.valueOf(latitude))
-//                .longitude(Double.valueOf(longitude))
-//                .build();
-//        locationDao.delete(location);
-        System.out.println();
     }
 
-
-    public static LocationService getInstance(){
+    public static LocationService getInstance() {
         return INSTANCE;
     }
-    private static final LocationService INSTANCE = new LocationService();
-    private LocationService(){
 
+    private static final LocationService INSTANCE = new LocationService();
+
+    private LocationService() {
     }
 }

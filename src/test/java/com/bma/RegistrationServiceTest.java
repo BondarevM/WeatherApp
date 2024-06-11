@@ -6,9 +6,6 @@ import com.bma.exception.InvalidUserDataException;
 import com.bma.model.User;
 import com.bma.service.RegistrationService;
 import com.bma.util.HashUtil;
-import com.bma.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,7 +26,6 @@ public class RegistrationServiceTest {
         hashUtil = HashUtil.getInstance();
     }
 
-
     @Test
     public void AfterRegistrationUserAddedToDatabase() throws InvalidUserDataException, NoSuchAlgorithmException, DatabaseException {
         String login = "login";
@@ -44,7 +40,6 @@ public class RegistrationServiceTest {
 
     @Test
     public void RegistrationUsingNonUniqueLoginThrowsException() throws NoSuchAlgorithmException, InvalidUserDataException, DatabaseException {
-
         String login = "Login";
         String password = "password";
 

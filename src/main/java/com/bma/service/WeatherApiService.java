@@ -37,17 +37,16 @@ public class WeatherApiService {
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(20))
                 .build();
-
     }
 
     public WeatherApiService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
-
     public List<WeatherDto> getWeathersForCurrentUser(String sessionId) throws IOException, InterruptedException {
         Optional<Session> session = sessionDao.getSessionById(sessionId);
         List<WeatherDto> resultList = new ArrayList<>();
+
         if (session.isPresent()) {
             User user = session.get().getUser();
             List<Location> locations = locationDao.getLocationsByUser(user);
@@ -66,7 +65,6 @@ public class WeatherApiService {
                         .longitude(locations.get(i).getLongitude())
                         .build();
                 resultList.add(weatherDto);
-                System.out.println();
             }
         }
         return resultList;
@@ -87,7 +85,6 @@ public class WeatherApiService {
     }
 
     public List<LocationDto> getLocations(String name) throws IOException, InterruptedException {
-
         String cityName = name.replace(" ", "-");
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -118,6 +115,5 @@ public class WeatherApiService {
     private static final WeatherApiService INSTANCE = new WeatherApiService();
 
     private static void setHttpClientParams() {
-
     }
 }

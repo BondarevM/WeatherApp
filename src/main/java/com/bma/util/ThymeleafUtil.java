@@ -17,6 +17,7 @@ public class ThymeleafUtil {
     public static WebContext buildWebContext(HttpServletRequest req, HttpServletResponse resp, ServletContext servletContext) {
         JakartaServletWebApplication application = JakartaServletWebApplication.buildApplication(servletContext);
         IServletWebExchange webExchange = application.buildExchange(req, resp);
+
         return new WebContext(webExchange);
     }
 
@@ -37,6 +38,7 @@ public class ThymeleafUtil {
     public static TemplateEngine buildTemplateEngine(ServletContext servletContext){
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(buildTemplateResolver(servletContext));
+
         return templateEngine;
     }
 }

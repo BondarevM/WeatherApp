@@ -23,17 +23,7 @@ public class HomeServlet extends FatherServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-//        Cookie[] cookies = req.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("sessionId")) {
-//                    context.setVariable("sessionId", cookie.getValue());
-//                }
-//            }
-//        }
-
-        String sessionId = (String)context.getVariable("sessionId");
+        String sessionId = (String) context.getVariable("sessionId");
         context.setVariable("errorMessage", req.getParameter("errorMessage"));
 
         try {
@@ -46,7 +36,6 @@ public class HomeServlet extends FatherServlet {
             return;
         }
 
-
         templateEngine.process("home", context, resp.getWriter());
     }
 
@@ -56,17 +45,15 @@ public class HomeServlet extends FatherServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
 
-        String sessionId = (String)context.getVariable("sessionId");
+        String sessionId = (String) context.getVariable("sessionId");
 
         try {
             locationService.saveLocation(cityName, latitude, longitude, sessionId);
         } catch (InvalidSessionException | DatabaseException e) {
             System.out.println();
             context.setVariable("errorMessage", e.getMessage());
-
         }
 
         resp.sendRedirect("/");
-
     }
 }
