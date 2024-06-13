@@ -40,27 +40,26 @@ public class HibernateUtil {
     }
 
     public static Configuration buildConfiguration() {
+        Configuration configuration = new Configuration();
 
         if (properties.getProperty("RUN_MODE").equals("DEV")) {
-            Configuration configuration = new Configuration();
+            String jdbcUrl = System.getenv("DB_HOST") != null
+                    ? "jdbc:postgresql://" + System.getenv("DB_HOST") + ":" + System.getenv("DB_PORT") + "/" + System.getenv("DB_NAME")
+                    : "jdbc:postgresql://localhost:5432/postgres";
+            String username = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "postgres";
+            String password = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : "postgres";
 
-            configuration.setProperty(Environment.JAKARTA_JDBC_URL, "jdbc:postgresql://localhost:5432/postgres");
-            configuration.setProperty(Environment.JAKARTA_JDBC_USER, "postgres");
-            configuration.setProperty(Environment.JAKARTA_JDBC_PASSWORD, "postgres");
-            configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-
-            return configuration;
+            configuration.setProperty(Environment.JAKARTA_JDBC_URL, jdbcUrl);
+            configuration.setProperty(Environment.JAKARTA_JDBC_USER, username);
+            configuration.setProperty(Environment.JAKARTA_JDBC_PASSWORD, password);
         } else {
-            Configuration configuration = new Configuration();
-
             configuration.setProperty("hibernate.connection.url", postgres.getJdbcUrl());
             configuration.setProperty("hibernate.connection.username", postgres.getUsername());
             configuration.setProperty("hibernate.connection.password", postgres.getPassword());
-            configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-            configuration.configure();
-
-            return configuration;
         }
-    }
 
+        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+
+        return configuration;
+    }
 }

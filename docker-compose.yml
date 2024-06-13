@@ -1,0 +1,25 @@
+version: '3'
+services:
+  webapp:
+    container_name: WeatherApp
+    image: bondarevm/weather-img
+    ports:
+      - "8080:8080"
+    depends_on:
+      - weather-db2
+    environment:
+      DB_HOST: weather-db2
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+
+  weather-db2:
+    container_name: WeatherDb
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
