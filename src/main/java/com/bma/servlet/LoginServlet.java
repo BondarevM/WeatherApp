@@ -47,6 +47,7 @@ public class LoginServlet extends FatherServlet {
         }
 
         Session session = new Session(UUID.randomUUID().toString(), user, LocalDateTime.now().plusHours(24));
+
         sessionService.saveSession(session);
 
         Cookie cookie = new Cookie("sessionId", session.getId());

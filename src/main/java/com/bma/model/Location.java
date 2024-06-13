@@ -1,9 +1,11 @@
 package com.bma.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.math.BigDecimal;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +13,9 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 @Entity
-@Table(name = "Locations")
+@Table(name = "Locations", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"latitude", "longitude", "userid"})
+})
 public class Location {
     @Id
     @Column(name = "ID")
