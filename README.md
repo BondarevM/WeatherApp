@@ -17,7 +17,19 @@ Web application for viewing current weather. The user can register and add one o
 
 ___
 ### Deploy:
-XXXXXXXXXXXXXXXXXXXXXXXXXXX
+http://213.171.29.43:8080/
+___
+### Quick start:
+
++ download repo:
+```
+git clone https://github.com/BondarevM/WeatherApp.git
+```
++ run application
+```
+docker compose up -d
+```
+
 ___
 ### Application view
 ![image](https://github.com/BondarevM/WeatherApp/assets/99888305/a7e0cf52-47e1-435d-9d72-2fe9798d0b50)
