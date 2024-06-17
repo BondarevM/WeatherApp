@@ -58,7 +58,7 @@ public class HibernateUtil {
             configuration.setProperty("hibernate.connection.password", postgres.getPassword());
         }
 
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
         return configuration;
     }
