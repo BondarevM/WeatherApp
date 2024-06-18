@@ -14,10 +14,6 @@ Web application for viewing current weather. The user can register and add one o
 + JUnit 5, Mockito, Testcontainers
 + Apache Tomcat 10
 + Docker
-
-___
-### Deploy:
-http://213.171.29.43:8080/
 ___
 ### Quick start:
 
